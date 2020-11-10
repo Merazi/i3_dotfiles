@@ -16,9 +16,10 @@ My configuration files for i3-wm.
 
 - First clone the repo
 
-  mkdir ~/Git 2>/dev/null; cd ~/Git # keep your home clean
-  git clone https://github.com/Merazi/i3_dotfiles
+  - mkdir ~/Git 2>/dev/null; cd ~/Git # keep your home clean
+  
+  - git clone https://github.com/Merazi/i3_dotfiles
   
 - And put both config and i3status files inside of
 
-  ~/.config/i3/
+  - ~/.config/i3/
