@@ -1,25 +1,42 @@
-# What is this?
 
-My configuration files for i3-wm.
+# Table of Contents
 
-# Dependencies
+1.  ["Dependencies":](#orga954833)
+2.  [Make? Qmake? Autoconf? install.sh?](#org3ecf3dc)
+3.  [Screenshots?](#org846ac8a)
 
-- i3-wm
-- i3status
-- FreeMono Font by the GNU folks (https://www.gnu.org/software/freefont/)
-- Nitrogen (for setting the wallpaper up)
-- Xterm (My fav terminal emulator)
-- xfce4-terminal (My fav dropdown terminal)
-- dmenu (that's what I use for running commands, you can replace it with rofi if you want)
 
-# Installation
 
-- First clone the repo
+<a id="orga954833"></a>
 
-  - ```mkdir ~/Git 2>/dev/null; cd ~/Git # keep your home clean```
-  
-  - ```git clone https://github.com/Merazi/i3_dotfiles```
-  
-- And put both config and i3status files inside of
+# "Dependencies":
 
-  - ```~/.config/i3/```
+-   x11 (duh)
+-   i3 and i3status (duh x2)
+-   xterm (you can change it on the config file tho, but why would you do that? Xterm is great.)
+-   picom (for transparency and stuff)
+-   emacs (Why would you need another <span class="underline">text editor</span>?)
+-   nitrogen (for the wallpaper)
+-   xfce4-power-manager (I was lazy enough to not write scripts for brightness control nor battery status monitoring)
+
+
+<a id="org3ecf3dc"></a>
+
+# Make? Qmake? Autoconf? install.sh?
+
+Nah, just copy the config files to their specific directories.
+
+`cp i3_dotfiles/i3status.conf ~/.config/i3/`
+
+`cp i3_dotfiles/config ~/.config/i3/`
+
+`cp i3_dotfiles/picom.conf ~/.config/picom/`
+
+Finally just reload i3 and picom.
+
+
+<a id="org846ac8a"></a>
+
+# Screenshots?
+
+TODO.

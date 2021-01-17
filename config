@@ -2,53 +2,74 @@
 set $mod Mod4
 
 # font and title
-font pango: FreeMono 10
-title_align center
-default_border normal 0px
-hide_edge_borders smart
+font pango: Inconsolata 10
+title_align left
+for_window [class="^.*"] border pixel 5
+
+# don't turn off the screen
+exec --no-startup-id xset s noblank
+exec --no-startup-id xset s off
+exec --no-startup-id xset -dpms
 
 # startup applications
-exec_always --no-startup-id nitrogen --restore
+exec --no-startup-id picom
+exec --no-startup-id emacs --daemon
+exec --no-startup-id nitrogen --restore
+#exec --no-startup-id xrandr --output HDMI-1 --left-of eDP-1
+
+# exec every time i3 starts or restarts
+exec_always --no-startup-id xset r rate 200 60
 exec_always --no-startup-id setxkbmap -option compose:ralt
-exec --no-startup-id xrandr --output HDMI-1 --left-of eDP-1
+exec_always --no-startup-id setxkbmap -option ctrl:swapcaps
+
+# my brightness keys are handled by the xfce4 power manager
+exec --no-startup-id xfce4-power-manager
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# control the volume with the arrow keys
-bindsym $mod+Up exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym $mod+Down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym $mod+Left exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym $mod+Right exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id vol_raise.sh && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id vol_lower.sh && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id vol_mute_toggle.sh && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id mic_mute_toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start the best terminal emulator
 bindsym $mod+Return exec xterm
-bindsym $mod+c exec xfce4-terminal --drop-down --hide-borders --hide-toolbar --hide-scrollbar --hide-menubar
+
+# launch an emacs frame
+bindsym $mod+e exec emacsclient -a "" -c
 
 # kill focused window
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_script.sh
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+colon focus right
 
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+# use the arrow keys too
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move windows
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+colon move right
+
+# use the arrow keys too
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+m split h
@@ -77,28 +98,28 @@ bindsym $mod+t focus parent
 bindsym $mod+Shift+t focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1: uno
-bindsym $mod+2 workspace 2: dos
-bindsym $mod+3 workspace 3: tres
-bindsym $mod+4 workspace 4: cuatro
-bindsym $mod+5 workspace 5: cinco
-bindsym $mod+6 workspace 6: seis
-bindsym $mod+7 workspace 7: siete
-bindsym $mod+8 workspace 8: ocho
-bindsym $mod+9 workspace 9: nueve
-bindsym $mod+0 workspace 10: diez
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1: uno
-bindsym $mod+Shift+2 move container to workspace 2: dos
-bindsym $mod+Shift+3 move container to workspace 3: tres
-bindsym $mod+Shift+4 move container to workspace 4: cuatro
-bindsym $mod+Shift+5 move container to workspace 5: cinco
-bindsym $mod+Shift+6 move container to workspace 6: seis
-bindsym $mod+Shift+7 move container to workspace 7: siete
-bindsym $mod+Shift+8 move container to workspace 8: ocho
-bindsym $mod+Shift+9 move container to workspace 9: nueve
-bindsym $mod+Shift+0 move container to workspace 10: diez
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -110,7 +131,9 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+Return exec i3lock -c 282828 -e -f -b
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-msg exit"
+# NOTE: I've configured debian to exit X11 with Ctrl + Alt + Backspace
+# That's why this line is commented out. You can still enable it if you wish
+#bindsym $mod+Shift+e exec "i3-msg exit"
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+s resize grow width 10 px or 10 ppt
@@ -118,40 +141,8 @@ bindsym $mod+a resize grow height 10 px or 10 ppt
 bindsym $mod+Shift+s resize shrink width 10 px or 10 ppt
 bindsym $mod+Shift+a resize shrink height 10 px or 10 ppt
 
-# -> color configuration {
-# set primary gruvbox colorscheme colors
-set $bg #282828
-set $red #cc241d
-set $green #98971a
-set $yellow #d79921
-set $blue #458588
-set $purple #b16286
-set $aqua #689d68
-set $gray #a89984
-set $darkgray #1d2021
-
 bar {
-    position bottom
+    position top
     status_command i3status -c ~/.config/i3/i3status.conf
     tray_padding 0
-    colors {
-        # bar background color
-        background $bg
-        # text color used for blocks that do not have a color specified.
-        statusline #ebdbb2
-        # workspaces section            
-        #                    border  backgr. text
-        focused_workspace    $aqua $aqua $darkgray
-        inactive_workspace   $darkgray $darkgray $yellow
-        active_workspace     $darkgray $darkgray $yellow
-        urgent_workspace     $red $red $bg
-    }
 }
-
-# green gruvbox
-# class                 border|backgr|text|indicator|child_border
-client.focused          $green $green $darkgray $purple $darkgray
-client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-client.urgent           $red $red $white $red $red
-# }
